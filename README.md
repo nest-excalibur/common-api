@@ -54,7 +54,7 @@ first consider implementing the following classes:
 If you want the entity has an auntoincremental id column, createdAt, updatedAt columns.
 
 ```typescript
-import {AbstractEntity} from '@pimba/excalibur/lib';
+import {AbstractEntity} from '@nest-excalibur/common-api/lib';
 
 @Entity('product')
 export class ProductEntity extends AbstractEntity {
@@ -67,7 +67,7 @@ export class ProductEntity extends AbstractEntity {
 #### Create a service class which extends from `AbstractService`
 
 ```typescript
-import {AbstractService} from '@pimba/excalibur/lib';
+import {AbstractService} from '@nest-excalibur/common-api/lib';
 
 @Injectable()
 export class ProductService extends AbstractService<ProductEntity> {
@@ -86,7 +86,7 @@ export class ProductService extends AbstractService<ProductEntity> {
 It is optional to extend from `BaseDTO` , This class allows to validate that the fields: `id` , `createdAt` and `updatedAt` should not be empty
 
 ```typescript
-import {BaseDTO} from '@pimba/excalibur/lib';
+import {BaseDTO} from '@nest-excalibur/common-api/lib';
 
 export class ProductCreateDto extends BaseDTO{
   @IsAlpha()
@@ -104,7 +104,7 @@ export class ProductCreateDto extends BaseDTO{
 
 
 ```typescript
-import {CrudController, CrudOptions} from '@pimba/excalibur/lib';
+import {CrudController, CrudOptions} from '@nest-excalibur/common-api/lib';
 
 const options: CrudOptions = {
     dtoConfig: {
@@ -418,10 +418,12 @@ Example:
 
 ```typescript
 import {EntityManager, getManager, Repository} from 'typeorm';
-import {AbstractService} from '@pimba/excalibur/lib'; 
+import {
+    AbstractService, 
+    TransactionResponse, 
+    FindFullQuerym
+} from '@nest-excalibur/common-api/lib'; 
 import {getManager} from 'typeorm';
-import {FindFullQuery} from '@pimba/excalibur/lib';
-import {TransactionResponse} from '@pimba/excalibur/lib';
 
 @Injectable()
 export class ProductService extends AbstractService<ProductEntity> {
@@ -474,7 +476,7 @@ export class ProductService extends AbstractService<ProductEntity> {
 If you want the entity has an ObjectId, updatedAt columns, you need to extends from `AbstractMongoEntity`
 
 ```typescript
-import {AbstractMongoEntity} from '@pimba/excalibur/lib';
+import {AbstractMongoEntity} from '@nest-excalibur/common-api/lib';
 
 @Entity('post')
 export class PostEntity extends AbstractMongoEntity{
@@ -489,7 +491,7 @@ export class PostEntity extends AbstractMongoEntity{
 It is optional to extend from `BaseMongoDTO` . This class allows to validate that the fields: `id` , `createdAt` and `updatedAt` should not be empty
 
 ``` typescript
-import {BaseMongoDTO} from '@pimba/excalibur/lib';
+import {BaseMongoDTO} from '@nest-excalibur/common-api/lib';
 
 export class Post extends BaseMongoDTO{
 
@@ -501,7 +503,7 @@ export class Post extends BaseMongoDTO{
 The service class must extends from `AbstractMongoService`
 
 ```typescript
-import {AbstractMongoService} from '@pimba/excalibur/lib';
+import {AbstractMongoService} from '@nest-excalibur/common-api/lib';
 
 @Injectable()
 export class PostService extends AbstractMongoService<PostEntity> {
@@ -526,7 +528,7 @@ export class PostService extends AbstractMongoService<PostEntity> {
 #### Controller
 
 ```typescript
-import {CrudController, CrudOptions} from '@pimba/excalibur/lib';
+import {CrudController, CrudOptions} from '@nest-excalibur/common-api/lib';
 
 const options: CrudOptions = {
     useMongo: true,
@@ -555,7 +557,8 @@ For Guards for every `Crud Method` you need to make use of `CrudGuards` or `Crud
 
 Example:
 ```typescript
-import {CrudGuards} from '@pimba/excalibur/lib';
+import {CrudGuards} from '@nest-excalibur/common-api/lib';
+
 
 @CrudGuards(
      {
@@ -576,7 +579,7 @@ For Interceptors for every `Crud Method` you need to make use of `CrudIntercepto
 
 Example:
 ```typescript
-import {CrudInterceptors} from '@pimba/excalibur/lib';
+import {CrudInterceptors} from '@nest-excalibur/common-api/lib';
 
 
 @CrudInterceptors(
@@ -597,7 +600,7 @@ For Headers on `Crud Methods` you need to make use of `CrudHeaders` or `CrudApi`
 
 Example:
 ```typescript
-import {CrudHeaders} from '@pimba/excalibur/lib';
+import {CrudHeaders} from '@nest-excalibur/common-api/lib';
 
 @CrudHeaders(
      {
@@ -622,7 +625,7 @@ Example:
 
 
 ```typescript
-import {CrudApi} from '@pimba/excalibur/lib';
+import {CrudApi} from '@nest-excalibur/common-api/lib';
 
 @CrudApi(
     {
