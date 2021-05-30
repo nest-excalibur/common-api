@@ -637,12 +637,6 @@ import {CrudApi} from '@nest-excalibur/common-api/lib';
                 value: ''
             },
         },
-        createOne: {
-            documentation: PRODUCT_SWAGGER_CONFIG.createOne,
-        },
-        updateOne: {
-            documentation: PRODUCT_SWAGGER_CONFIG.updateOne,
-        }
     },
 )
 @Controller('product')
