@@ -1,6 +1,6 @@
 import {ArgumentMetadata, BadRequestException, PipeTransform} from '@nestjs/common';
 import {plainToClass} from 'class-transformer';
-import {validate} from 'class-validator';
+import { validate, ValidationError } from 'class-validator';
 import {BaseDTO} from '../schemas/base-dto';
 import {LoggerService} from '../services/logger.service';
 
@@ -25,7 +25,7 @@ export class DefaultValidationPipe implements PipeTransform {
         if (validationErrors.length > 0) {
             logger.error(validationErrors, 'DefaultValidationPipe');
             const message: string = this.validateId ? 'Invalid id' : 'Invalid payload';
-            const errorMessage = {
+            const errorMessage: {message?: string; errors?: ValidationError[] } = {
                 message,
                 errors: validationErrors,
             };
