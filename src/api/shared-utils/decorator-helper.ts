@@ -1,33 +1,18 @@
-import {makeGuards} from '../decorators/crud-guards/make-guards/make-guards';
-import {CrudGuardConfigOptions, CrudGuards} from '../decorators/crud-guards/interfaces/crud-guards-interfaces-types';
-import {CrudInterceptors, CrudInterceptorsConfig} from '../decorators/crud-interceptors/interfaces/crud-interceptors';
-import {makeInterceptors} from '../decorators/crud-interceptors/make-interceptors/make-interceptors';
-import {CrudHeadersConfig, HeaderInterface} from '../decorators/crud-headers/interfaces/header.interface';
-import {makeHeaders} from '../decorators/crud-headers/make-headers/make-headers';
-import {CrudMethodsInterface} from '../interfaces/crud-methods.interface';
-
+import { CrudMethodsInterface } from '../interfaces/crud-methods.interface';
 
 
 export class DecoratorHelper {
-    static makeCrudGuards(
-        options: CrudGuardConfigOptions,
-        target: any,
-    ) {
-        return this.make<CrudGuards>(target, options, makeGuards);
-    }
 
-    static makeCrudInterceptors(
-        options: CrudInterceptorsConfig,
+    static makeDecorator<T>(
+        options: T,
         target: any,
+        maker: (
+            methodName: keyof (CrudMethodsInterface),
+            target: any,
+            options: any
+        ) => any | void,
     ) {
-        return this.make<CrudInterceptors>(target, options, makeInterceptors);
-    }
-
-    static makeCrudHeaders(
-        options: CrudHeadersConfig,
-        target: any,
-    ) {
-        return this.make<HeaderInterface>(target, options, makeHeaders);
+        return this.make<T>(target, options, maker);
     }
 
     private static make<T>(
