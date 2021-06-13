@@ -25,7 +25,9 @@
 
    3.3 [Headers](#headers)
 
-   3.4 [CrudApi](#crudapi)
+   3.4 [SetMetadata](#setmetadata)
+
+   3.5 [CrudApi](#crudapi)
 
 
 
@@ -616,6 +618,62 @@ export class ProductController extends CrudController<PostEntity>(options) {
     
 }
 ```
+
+### SetMetadata
+
+For set metadata on `Crud Methods` you need to make use of `CrudMetadata` or `CrudApi` decorator.
+
+Example:
+```typescript
+import {CrudMetadata} from '@nest-excalibur/common-api/lib';
+
+@CrudMetadata(
+  {
+    findAll: [
+      {
+        key: 'permissions',
+        data: ['READ'],
+      }
+    ],
+  }
+)
+@CrudGuards(
+  {
+    findAll: [
+      FindAllGuard,
+    ],
+  },
+)
+@Controller('product')
+export class ProductController extends CrudController<PostEntity>(options) {
+    
+}
+```
+
+You can retrieve the metadata using  `Reflector` from `@nestjs/core`;
+
+```typescript
+
+@Injectable()
+export class FindAllGuard implements CanActivate {
+
+  constructor(private readonly reflector: Reflector) {}
+
+  async canActivate(
+    context: ExecutionContext,
+  ): Promise<boolean> {
+
+    const data = this.reflector.get<string[]>(
+      'permissions',
+      context.getHandler(),
+    );
+    
+    return true;
+  }
+}
+
+```
+
 
 ### CrudApi
 The `CrudApi` is a general decorator to put the configuration of swagger, guards, interceptors and headers for every
